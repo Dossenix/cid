@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Archivio Investigativo - Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <h1>Archivio Investigativo</h1>
+      <p class="subtitle">Dashboard principale reparto investigativo</p>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <a href="index.html" class="nav-link active">Dashboard</a>
+    <a href="archivio.html" class="nav-link">Archivio</a>
+    <a href="servizio.html" class="nav-link">Servizio</a>
+    <a href="ronda.html" class="nav-link">Ronda Eagle</a>
+    <a href="targhe.html" class="nav-link">Targhe</a>
+  </nav>
+
+  <main class="page-container">
+    <section class="panel hero-panel">
+      <h2>Centro Operativo</h2>
+      <p>
+        Gestione cartelle investigative, timbrature di servizio, ronda Eagle e archivio targhe.
+      </p>
+
+      <div class="dashboard-grid">
+        <a class="dashboard-card" href="archivio.html">
+          <h3>Archivio Investigativo</h3>
+          <p>Crea, rinomina e gestisci le cartelle con le 28 prove per assaltare.</p>
+        </a>
+
+        <a class="dashboard-card" href="servizio.html">
+          <h3>Servizio</h3>
+          <p>Timbra entrata e uscita, monitora il timer e copia il modulo servizio.</p>
+        </a>
+
+        <a class="dashboard-card" href="ronda.html">
+          <h3>Ronda Eagle</h3>
+          <p>Avvia e chiudi la ronda, registra targhe prese e copia il modulo finale.</p>
+        </a>
+
+        <a class="dashboard-card" href="targhe.html">
+          <h3>Archivio Targhe</h3>
+          <p>Salva e consulta schedature targhe con veicolo, soggetto, ghetto e clip.</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="stats-grid">
+      <div class="panel stat-card">
+        <span class="stat-label">Cartelle Totali</span>
+        <strong class="stat-value" id="statFolders">0</strong>
+      </div>
+
+      <div class="panel stat-card">
+        <span class="stat-label">Targhe Salvate</span>
+        <strong class="stat-value" id="statPlates">0</strong>
+      </div>
+
+      <div class="panel stat-card">
+        <span class="stat-label">Servizio</span>
+        <strong class="stat-value" id="statService">Fuori servizio</strong>
+      </div>
+
+      <div class="panel stat-card">
+        <span class="stat-label">Ronda Eagle</span>
+        <strong class="stat-value" id="statRonda">Non attiva</strong>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Gestione Backup</h2>
+      <div class="button-row">
+        <button class="btn btn-primary" id="exportDataBtn">Export Backup</button>
+        <label class="btn btn-secondary file-label">
+          Import Backup
+          <input type="file" id="importDataInput" accept=".json" hidden />
+        </label>
+        <button class="btn btn-danger" id="resetAllBtn">Reset Totale</button>
+      </div>
+      <p class="help-text">
+        I dati vengono salvati nel browser del computer che usa il sito. Puoi esportare e reimportare un backup JSON.
+      </p>
+    </section>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>

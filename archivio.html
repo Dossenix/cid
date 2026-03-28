@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Archivio Investigativo</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <h1>Archivio Investigativo</h1>
+      <p class="subtitle">Gestione cartelle e prove</p>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <a href="index.html" class="nav-link">Dashboard</a>
+    <a href="archivio.html" class="nav-link active">Archivio</a>
+    <a href="servizio.html" class="nav-link">Servizio</a>
+    <a href="ronda.html" class="nav-link">Ronda Eagle</a>
+    <a href="targhe.html" class="nav-link">Targhe</a>
+  </nav>
+
+  <main class="page-container page-grid">
+    <aside class="panel sidebar-panel">
+      <h2>Cartelle</h2>
+
+      <div class="stack">
+        <input type="text" id="newFolderName" placeholder="Nome nuova cartella..." />
+        <button class="btn btn-primary" id="createFolderBtn">Crea Cartella</button>
+      </div>
+
+      <div id="foldersList" class="folders-list"></div>
+    </aside>
+
+    <section class="panel content-panel">
+      <div id="folderHeader" class="empty-state">
+        <h2>Nessuna cartella selezionata</h2>
+        <p>Crea o seleziona una cartella dalla colonna sinistra.</p>
+      </div>
+
+      <div id="folderContent"></div>
+    </section>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/archivio.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Archivio Targhe</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <h1>Archivio Targhe</h1>
+      <p class="subtitle">Salvataggio e consultazione schedature targhe</p>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <a href="index.html" class="nav-link">Dashboard</a>
+    <a href="archivio.html" class="nav-link">Archivio</a>
+    <a href="servizio.html" class="nav-link">Servizio</a>
+    <a href="ronda.html" class="nav-link">Ronda Eagle</a>
+    <a href="targhe.html" class="nav-link active">Targhe</a>
+  </nav>
+
+  <main class="page-container page-grid-targhe">
+    <section class="panel">
+      <h2>Nuova Targa</h2>
+
+      <div class="stack">
+        <div>
+          <label>Numero Della Targa</label>
+          <textarea id="plateNumero" rows="2" placeholder="Rumpo Custom 594 NEJ - Toyota GT86 212 RAW"></textarea>
+        </div>
+
+        <div>
+          <label>Nome e Cognome del soggetto</label>
+          <textarea id="plateSoggetto" rows="2" placeholder="Michael Caruso 02/28/2000 [rumpo] -- Hector Luis 05/20/1986"></textarea>
+        </div>
+
+        <div>
+          <label>Ghetto di appartenenza</label>
+          <input type="text" id="plateGhetto" placeholder="civico 305" />
+        </div>
+
+        <div>
+          <label>Schedatura Targa</label>
+          <input type="text" id="plateLink" placeholder="https://youtu.be/..." />
+        </div>
+
+        <div class="button-row">
+          <button class="btn btn-primary" id="savePlateBtn">Salva Targa</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Archivio Targhe Salvate</h2>
+      <div id="platesList" class="plates-list"></div>
+    </section>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/targhe.js"></script>
+</body>
+</html>

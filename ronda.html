@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ronda Eagle</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <h1>Ronda Eagle</h1>
+      <p class="subtitle">Monitoraggio ronda e modulo targhe prese</p>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <a href="index.html" class="nav-link">Dashboard</a>
+    <a href="archivio.html" class="nav-link">Archivio</a>
+    <a href="servizio.html" class="nav-link">Servizio</a>
+    <a href="ronda.html" class="nav-link active">Ronda Eagle</a>
+    <a href="targhe.html" class="nav-link">Targhe</a>
+  </nav>
+
+  <main class="page-container narrow-page">
+    <section class="panel">
+      <h2>Stato Ronda</h2>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <span class="info-label">Stato</span>
+          <strong id="rondaStatus">Non attiva</strong>
+        </div>
+
+        <div class="info-box">
+          <span class="info-label">Inizio Ronda</span>
+          <strong id="rondaStartText">--:--:--</strong>
+        </div>
+
+        <div class="info-box">
+          <span class="info-label">Fine Ronda</span>
+          <strong id="rondaEndText">--:--:--</strong>
+        </div>
+
+        <div class="info-box">
+          <span class="info-label">Tempo Ronda</span>
+          <strong id="rondaTimer">00:00:00</strong>
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button class="btn btn-success" id="startRondaBtn">Avvia Ronda Eagle</button>
+        <button class="btn btn-warning" id="endRondaBtn">Chiudi Ronda Eagle</button>
+        <button class="btn btn-secondary" id="copyRondaModuleBtn">Copia Modulo</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Modulo Ronda</h2>
+
+      <div class="stack">
+        <div>
+          <label>Nome e Cognome</label>
+          <input type="text" id="rondaName" value="Detroit" />
+        </div>
+
+        <div>
+          <label>Targhe Prese (una per riga)</label>
+          <textarea id="rondaTarghe" rows="8" placeholder="targa: [TARGA] + [CLIP YOUTUBE]"></textarea>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/ronda.js"></script>
+</body>
+</html>
