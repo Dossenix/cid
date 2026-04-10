@@ -1,4 +1,6 @@
 const STORAGE_KEY = "archivio_investigativo_multi_v1";
+const DEFAULT_SERVICE_CODENAME = "<@1084580275582931044>";
+const DEFAULT_RONDA_NAME = "Detroit";
 
 const PROOF_TEMPLATES = [
   "1° PER RIPULIRE LA CITTÀ (ASSOCIAZIONE A DELINQUERE)",
@@ -37,7 +39,7 @@ function defaultState() {
     folders: [],
     service: {
       active: false,
-      codename: "<@1084580275582931044>",
+      codename: DEFAULT_SERVICE_CODENAME,
       startAt: null,
       endAt: null,
       rapporto: "",
@@ -46,7 +48,7 @@ function defaultState() {
     },
     ronda: {
       active: false,
-      name: "Detroit",
+      name: DEFAULT_RONDA_NAME,
       startAt: null,
       endAt: null,
       targhe: ""
@@ -55,18 +57,102 @@ function defaultState() {
   };
 }
 
-function createDefaultFolder(name) {
+function safeText(value, fallback = "") {
+  return typeof value === "string" ? value : fallback;
+}
+
+function safeTimestamp(value) {
+  return Number.isFinite(value) && value > 0 ? value : null;
+}
+
+function generateId() {
+  if (window.crypto && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+
+  return "id-" + Date.now() + "-" + Math.floor(Math.random() * 100000);
+}
+
+function normalizeProof(proof, index) {
+  const title = safeText(proof?.title, PROOF_TEMPLATES[index]).trim() || PROOF_TEMPLATES[index];
+
   return {
-    id: generateId(),
-    name,
-    proofs: PROOF_TEMPLATES.map((title, index) => ({
-      id: index + 1,
-      title,
-      checked: false,
-      data: "",
-      clip: ""
-    }))
+    id: index + 1,
+    title,
+    checked: Boolean(proof?.checked),
+    data: safeText(proof?.data),
+    clip: safeText(proof?.clip)
   };
+}
+
+function normalizeFolder(folder, index) {
+  const rawProofs = Array.isArray(folder?.proofs) ? folder.proofs : [];
+  const fallbackName = `Cartella ${index + 1}`;
+  const folderId = safeText(folder?.id).trim() || generateId();
+
+  return {
+    id: folderId,
+    name: safeText(folder?.name, fallbackName).trim() || fallbackName,
+    proofs: PROOF_TEMPLATES.map((item, proofIndex) => normalizeProof(rawProofs[proofIndex], proofIndex))
+  };
+}
+
+function normalizeService(service) {
+  return {
+    active: Boolean(service?.active),
+    codename: safeText(service?.codename, DEFAULT_SERVICE_CODENAME),
+    startAt: safeTimestamp(service?.startAt),
+    endAt: safeTimestamp(service?.endAt),
+    rapporto: safeText(service?.rapporto),
+    ghetti: safeText(service?.ghetti, "//"),
+    informazioni: safeText(service?.informazioni, "//")
+  };
+}
+
+function normalizeRonda(ronda) {
+  return {
+    active: Boolean(ronda?.active),
+    name: safeText(ronda?.name, DEFAULT_RONDA_NAME),
+    startAt: safeTimestamp(ronda?.startAt),
+    endAt: safeTimestamp(ronda?.endAt),
+    targhe: safeText(ronda?.targhe)
+  };
+}
+
+function normalizePlate(plate, index) {
+  const plateId = safeText(plate?.id).trim() || generateId();
+  const numero = safeText(plate?.numero, `Targa ${index + 1}`).trim() || `Targa ${index + 1}`;
+
+  return {
+    id: plateId,
+    numero,
+    soggetto: safeText(plate?.soggetto),
+    ghetto: safeText(plate?.ghetto),
+    link: safeText(plate?.link),
+    createdAt: safeTimestamp(plate?.createdAt) || Date.now()
+  };
+}
+
+function normalizeState(source = {}) {
+  const base = defaultState();
+  const folders = Array.isArray(source.folders) ? source.folders.map(normalizeFolder) : [];
+  const plates = Array.isArray(source.plates) ? source.plates.map(normalizePlate) : [];
+  const selectedFolderId = folders.some(folder => folder.id === source.selectedFolderId)
+    ? source.selectedFolderId
+    : folders[0]?.id || null;
+
+  return {
+    ...base,
+    selectedFolderId,
+    folders,
+    service: normalizeService(source.service),
+    ronda: normalizeRonda(source.ronda),
+    plates
+  };
+}
+
+function createDefaultFolder(name) {
+  return normalizeFolder({ name }, 0);
 }
 
 function loadState() {
@@ -74,15 +160,7 @@ function loadState() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaultState();
 
-    const parsed = JSON.parse(raw);
-    return {
-      ...defaultState(),
-      ...parsed,
-      service: { ...defaultState().service, ...(parsed.service || {}) },
-      ronda: { ...defaultState().ronda, ...(parsed.ronda || {}) },
-      folders: Array.isArray(parsed.folders) ? parsed.folders : [],
-      plates: Array.isArray(parsed.plates) ? parsed.plates : []
-    };
+    return normalizeState(JSON.parse(raw));
   } catch (error) {
     console.error(error);
     return defaultState();
@@ -90,23 +168,18 @@ function loadState() {
 }
 
 function saveState(state) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-}
-
-function generateId() {
-  if (window.crypto && crypto.randomUUID) {
-    return crypto.randomUUID();
-  }
-  return "id-" + Date.now() + "-" + Math.floor(Math.random() * 100000);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(normalizeState(state)));
 }
 
 function exportState(state) {
-  const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+  const blob = new Blob([JSON.stringify(normalizeState(state), null, 2)], {
+    type: "application/json"
+  });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "archivio-investigativo-backup.json";
-  a.click();
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = "archivio-investigativo-backup.json";
+  anchor.click();
   URL.revokeObjectURL(url);
 }
 
@@ -116,15 +189,7 @@ function importStateFromFile(file, callback) {
   reader.onload = () => {
     try {
       const imported = JSON.parse(reader.result);
-      const newState = {
-        ...defaultState(),
-        ...imported,
-        service: { ...defaultState().service, ...(imported.service || {}) },
-        ronda: { ...defaultState().ronda, ...(imported.ronda || {}) },
-        folders: Array.isArray(imported.folders) ? imported.folders : [],
-        plates: Array.isArray(imported.plates) ? imported.plates : []
-      };
-      callback(null, newState);
+      callback(null, normalizeState(imported));
     } catch (error) {
       callback(error, null);
     }

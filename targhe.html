@@ -3,61 +3,124 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Archivio Targhe</title>
+  <meta
+    name="description"
+    content="Archivio targhe con salvataggio rapido, ricerca immediata e link schedatura consultabili."
+  />
+  <meta name="theme-color" content="#0f1729" />
+  <title>Archivio Targhe | Salvataggio e ricerca</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div>
-      <h1>Archivio Targhe</h1>
-      <p class="subtitle">Salvataggio e consultazione schedature targhe</p>
-    </div>
-  </header>
+  <a class="skip-link" href="#mainContent">Vai al contenuto principale</a>
 
-  <nav class="main-nav">
-    <a href="index.html" class="nav-link">Dashboard</a>
-    <a href="archivio.html" class="nav-link">Archivio</a>
-    <a href="servizio.html" class="nav-link">Servizio</a>
-    <a href="ronda.html" class="nav-link">Ronda Eagle</a>
-    <a href="targhe.html" class="nav-link active">Targhe</a>
-  </nav>
-
-  <main class="page-container page-grid-targhe">
-    <section class="panel">
-      <h2>Nuova Targa</h2>
-
-      <div class="stack">
-        <div>
-          <label>Numero Della Targa</label>
-          <textarea id="plateNumero" rows="2" placeholder="Rumpo Custom 594 NEJ - Toyota GT86 212 RAW"></textarea>
-        </div>
-
-        <div>
-          <label>Nome e Cognome del soggetto</label>
-          <textarea id="plateSoggetto" rows="2" placeholder="Michael Caruso 02/28/2000 [rumpo] -- Hector Luis 05/20/1986"></textarea>
-        </div>
-
-        <div>
-          <label>Ghetto di appartenenza</label>
-          <input type="text" id="plateGhetto" placeholder="civico 305" />
-        </div>
-
-        <div>
-          <label>Schedatura Targa</label>
-          <input type="text" id="plateLink" placeholder="https://youtu.be/..." />
-        </div>
-
-        <div class="button-row">
-          <button class="btn btn-primary" id="savePlateBtn">Salva Targa</button>
-        </div>
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="site-header-copy">
+        <p class="eyebrow">Archivio targhe</p>
+        <h1>Schedature Targhe</h1>
+        <p class="subtitle">Salva, filtra e riapri rapidamente le segnalazioni piu' utili.</p>
       </div>
-    </section>
 
-    <section class="panel">
-      <h2>Archivio Targhe Salvate</h2>
-      <div id="platesList" class="plates-list"></div>
-    </section>
-  </main>
+      <aside class="header-card" aria-label="Informazioni targhe">
+        <span class="header-card-label">Ricerca rapida</span>
+        <strong>Filtri immediati</strong>
+        <p>Cerca per targa, soggetto, ghetto o link senza scorrere l'intero archivio.</p>
+      </aside>
+    </header>
+
+    <nav class="main-nav" aria-label="Navigazione principale">
+      <a href="index.html" class="nav-link">Dashboard</a>
+      <a href="archivio.html" class="nav-link">Archivio</a>
+      <a href="servizio.html" class="nav-link">Servizio</a>
+      <a href="ronda.html" class="nav-link">Ronda Eagle</a>
+      <a href="targhe.html" class="nav-link active" aria-current="page">Targhe</a>
+    </nav>
+
+    <main class="page-container page-grid-targhe" id="mainContent">
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Nuova voce</p>
+            <h2>Salva una targa</h2>
+            <p class="panel-subtitle">Inserisci dati leggibili e un link valido per consultare la schedatura.</p>
+          </div>
+        </div>
+
+        <div class="stack">
+          <div>
+            <label for="plateNumero">Numero della targa</label>
+            <textarea
+              id="plateNumero"
+              rows="2"
+              placeholder="Rumpo Custom 594 NEJ - Toyota GT86 212 RAW"
+            ></textarea>
+          </div>
+
+          <div>
+            <label for="plateSoggetto">Nome e cognome del soggetto</label>
+            <textarea
+              id="plateSoggetto"
+              rows="2"
+              placeholder="Michael Caruso 02/28/2000 [rumpo] - Hector Luis 05/20/1986"
+            ></textarea>
+          </div>
+
+          <div>
+            <label for="plateGhetto">Ghetto di appartenenza</label>
+            <input type="text" id="plateGhetto" placeholder="Civico 305" />
+          </div>
+
+          <div>
+            <label for="plateLink">Schedatura targa</label>
+            <input type="text" id="plateLink" placeholder="https://youtu.be/..." />
+          </div>
+
+          <div class="button-row">
+            <button class="btn btn-primary" id="savePlateBtn" type="button">Salva targa</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Archivio consultabile</p>
+            <h2>Targhe salvate</h2>
+            <p class="panel-subtitle">Usa il filtro per isolare velocemente la scheda che ti serve.</p>
+          </div>
+        </div>
+
+        <div class="stack compact-stack">
+          <div>
+            <label for="plateSearchInput">Cerca nell'archivio</label>
+            <input
+              type="search"
+              id="plateSearchInput"
+              placeholder="Filtra per targa, soggetto, ghetto o link..."
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="summary-strip">
+            <div class="mini-stat">
+              <span>Totali</span>
+              <strong id="plateTotalCount">0</strong>
+            </div>
+
+            <div class="mini-stat">
+              <span>Visibili</span>
+              <strong id="plateVisibleCount">0</strong>
+            </div>
+          </div>
+
+          <p class="search-status" id="plateSearchStatus">Tutte le targhe disponibili.</p>
+        </div>
+
+        <div id="platesList" class="plates-list" aria-live="polite"></div>
+      </section>
+    </main>
+  </div>
 
   <script src="js/storage.js"></script>
   <script src="js/ui.js"></script>

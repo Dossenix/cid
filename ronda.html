@@ -3,74 +3,125 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ronda Eagle</title>
+  <meta
+    name="description"
+    content="Monitoraggio ronda Eagle con timer, conteggio targhe e anteprima modulo finale."
+  />
+  <meta name="theme-color" content="#0f1729" />
+  <title>Ronda Eagle | Monitoraggio e riepilogo</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div>
-      <h1>Ronda Eagle</h1>
-      <p class="subtitle">Monitoraggio ronda e modulo targhe prese</p>
-    </div>
-  </header>
+  <a class="skip-link" href="#mainContent">Vai al contenuto principale</a>
 
-  <nav class="main-nav">
-    <a href="index.html" class="nav-link">Dashboard</a>
-    <a href="archivio.html" class="nav-link">Archivio</a>
-    <a href="servizio.html" class="nav-link">Servizio</a>
-    <a href="ronda.html" class="nav-link active">Ronda Eagle</a>
-    <a href="targhe.html" class="nav-link">Targhe</a>
-  </nav>
-
-  <main class="page-container narrow-page">
-    <section class="panel">
-      <h2>Stato Ronda</h2>
-
-      <div class="info-grid">
-        <div class="info-box">
-          <span class="info-label">Stato</span>
-          <strong id="rondaStatus">Non attiva</strong>
-        </div>
-
-        <div class="info-box">
-          <span class="info-label">Inizio Ronda</span>
-          <strong id="rondaStartText">--:--:--</strong>
-        </div>
-
-        <div class="info-box">
-          <span class="info-label">Fine Ronda</span>
-          <strong id="rondaEndText">--:--:--</strong>
-        </div>
-
-        <div class="info-box">
-          <span class="info-label">Tempo Ronda</span>
-          <strong id="rondaTimer">00:00:00</strong>
-        </div>
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="site-header-copy">
+        <p class="eyebrow">Ronda Eagle</p>
+        <h1>Monitoraggio Ronda</h1>
+        <p class="subtitle">Timer, targhe prese e modulo finale con anteprima sempre aggiornata.</p>
       </div>
 
-      <div class="button-row">
-        <button class="btn btn-success" id="startRondaBtn">Avvia Ronda Eagle</button>
-        <button class="btn btn-warning" id="endRondaBtn">Chiudi Ronda Eagle</button>
-        <button class="btn btn-secondary" id="copyRondaModuleBtn">Copia Modulo</button>
-      </div>
-    </section>
+      <aside class="header-card" aria-label="Informazioni ronda">
+        <span class="header-card-label">Riepilogo</span>
+        <strong>Conteggio targhe live</strong>
+        <p>Registra una targa per riga e controlla subito quante segnalazioni sono state annotate.</p>
+      </aside>
+    </header>
 
-    <section class="panel">
-      <h2>Modulo Ronda</h2>
+    <nav class="main-nav" aria-label="Navigazione principale">
+      <a href="index.html" class="nav-link">Dashboard</a>
+      <a href="archivio.html" class="nav-link">Archivio</a>
+      <a href="servizio.html" class="nav-link">Servizio</a>
+      <a href="ronda.html" class="nav-link active" aria-current="page">Ronda Eagle</a>
+      <a href="targhe.html" class="nav-link">Targhe</a>
+    </nav>
 
-      <div class="stack">
-        <div>
-          <label>Nome e Cognome</label>
-          <input type="text" id="rondaName" value="Detroit" />
+    <main class="page-container narrow-page page-stack" id="mainContent">
+      <section class="panel">
+        <div class="panel-header panel-header--split">
+          <div>
+            <p class="eyebrow">Stato attuale</p>
+            <h2>Sessione di ronda</h2>
+            <p class="panel-subtitle">Avvia o chiudi la ronda mantenendo orari e riepilogo sempre leggibili.</p>
+          </div>
+
+          <span class="status-pill status-pill--idle" id="rondaStatusBadge">Non attiva</span>
         </div>
 
-        <div>
-          <label>Targhe Prese (una per riga)</label>
-          <textarea id="rondaTarghe" rows="8" placeholder="targa: [TARGA] + [CLIP YOUTUBE]"></textarea>
+        <div class="info-grid">
+          <div class="info-box">
+            <span class="info-label">Stato</span>
+            <strong id="rondaStatus">Non attiva</strong>
+          </div>
+
+          <div class="info-box">
+            <span class="info-label">Inizio ronda</span>
+            <strong id="rondaStartText">--:--:--</strong>
+          </div>
+
+          <div class="info-box">
+            <span class="info-label">Fine ronda</span>
+            <strong id="rondaEndText">--:--:--</strong>
+          </div>
+
+          <div class="info-box">
+            <span class="info-label">Tempo ronda</span>
+            <strong id="rondaTimer">00:00:00</strong>
+          </div>
         </div>
-      </div>
-    </section>
-  </main>
+
+        <div class="button-row">
+          <button class="btn btn-success" id="startRondaBtn" type="button">Avvia ronda Eagle</button>
+          <button class="btn btn-warning" id="endRondaBtn" type="button">Chiudi ronda Eagle</button>
+          <button class="btn btn-secondary" id="copyRondaModuleBtn" type="button">Copia modulo</button>
+        </div>
+
+        <p class="help-text" id="rondaSessionHint">
+          Avvia la sessione per far partire il timer e mantenere lo storico salvato automaticamente.
+        </p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Compilazione</p>
+            <h2>Modulo ronda</h2>
+            <p class="panel-subtitle">Inserisci nominativo e targhe con una struttura ordinata e pronta alla copia.</p>
+          </div>
+        </div>
+
+        <div class="stack">
+          <div>
+            <label for="rondaName">Nome e cognome</label>
+            <input type="text" id="rondaName" value="Detroit" />
+          </div>
+
+          <div>
+            <label for="rondaTarghe">Targhe prese</label>
+            <textarea
+              id="rondaTarghe"
+              rows="8"
+              placeholder="targa: [TARGA] + [CLIP YOUTUBE]"
+            ></textarea>
+            <p class="help-text compact-help" id="rondaPlateCount">0 targhe annotate.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Anteprima live</p>
+            <h2>Modulo finale</h2>
+            <p class="panel-subtitle">Il riepilogo si aggiorna in tempo reale mentre registri le targhe.</p>
+          </div>
+        </div>
+
+        <pre class="module-preview" id="rondaModulePreview"></pre>
+      </section>
+    </main>
+  </div>
 
   <script src="js/storage.js"></script>
   <script src="js/ui.js"></script>

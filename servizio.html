@@ -3,86 +3,132 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Servizio</title>
+  <meta
+    name="description"
+    content="Gestione servizio con timbratura, timer automatico e anteprima modulo operativo."
+  />
+  <meta name="theme-color" content="#0f1729" />
+  <title>Servizio | Timbratura e modulo operativo</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div>
-      <h1>Servizio</h1>
-      <p class="subtitle">Timbratura, timer e modulo operativo</p>
-    </div>
-  </header>
+  <a class="skip-link" href="#mainContent">Vai al contenuto principale</a>
 
-  <nav class="main-nav">
-    <a href="index.html" class="nav-link">Dashboard</a>
-    <a href="archivio.html" class="nav-link">Archivio</a>
-    <a href="servizio.html" class="nav-link active">Servizio</a>
-    <a href="ronda.html" class="nav-link">Ronda Eagle</a>
-    <a href="targhe.html" class="nav-link">Targhe</a>
-  </nav>
-
-  <main class="page-container narrow-page">
-    <section class="panel">
-      <h2>Stato di Servizio</h2>
-
-      <div class="info-grid">
-        <div class="info-box">
-          <span class="info-label">Stato</span>
-          <strong id="serviceStatus">Fuori servizio</strong>
-        </div>
-
-        <div class="info-box">
-          <span class="info-label">Entrata</span>
-          <strong id="serviceStartText">--:--:--</strong>
-        </div>
-
-        <div class="info-box">
-          <span class="info-label">Uscita</span>
-          <strong id="serviceEndText">--:--:--</strong>
-        </div>
-
-        <div class="info-box">
-          <span class="info-label">Tempo in servizio</span>
-          <strong id="serviceTimer">00:00:00</strong>
-        </div>
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="site-header-copy">
+        <p class="eyebrow">Servizio</p>
+        <h1>Gestione Servizio</h1>
+        <p class="subtitle">Timbratura, timer automatico e modulo operativo sempre pronto da copiare.</p>
       </div>
 
-      <div class="button-row">
-        <button class="btn btn-success" id="clockInBtn">Timbra Entrata</button>
-        <button class="btn btn-warning" id="clockOutBtn">Timbra Uscita</button>
-        <button class="btn btn-secondary" id="copyShiftModuleBtn">Copia Modulo</button>
-      </div>
-    </section>
+      <aside class="header-card" aria-label="Informazioni servizio">
+        <span class="header-card-label">Sessione</span>
+        <strong>Timer in tempo reale</strong>
+        <p>Lo stato resta aggiornato e il modulo si compila da solo mentre scrivi.</p>
+      </aside>
+    </header>
 
-    <section class="panel">
-      <h2>Modulo Operativo</h2>
+    <nav class="main-nav" aria-label="Navigazione principale">
+      <a href="index.html" class="nav-link">Dashboard</a>
+      <a href="archivio.html" class="nav-link">Archivio</a>
+      <a href="servizio.html" class="nav-link active" aria-current="page">Servizio</a>
+      <a href="ronda.html" class="nav-link">Ronda Eagle</a>
+      <a href="targhe.html" class="nav-link">Targhe</a>
+    </nav>
 
-      <div class="form-grid">
-        <div>
-          <label>Nome in Codice</label>
-          <input type="text" id="serviceCodename" value="<@1084580275582931044>" />
+    <main class="page-container narrow-page page-stack" id="mainContent">
+      <section class="panel">
+        <div class="panel-header panel-header--split">
+          <div>
+            <p class="eyebrow">Stato attuale</p>
+            <h2>Turno di servizio</h2>
+            <p class="panel-subtitle">Avvia e chiudi la sessione senza ricostruire gli orari a mano.</p>
+          </div>
+
+          <span class="status-pill status-pill--idle" id="serviceStatusBadge">Fuori servizio</span>
         </div>
 
-        <div>
-          <label>Ghetti attivi</label>
-          <input type="text" id="serviceGhetti" placeholder="//" />
-        </div>
-      </div>
+        <div class="info-grid">
+          <div class="info-box">
+            <span class="info-label">Stato</span>
+            <strong id="serviceStatus">Fuori servizio</strong>
+          </div>
 
-      <div class="stack">
-        <div>
-          <label>Rapporto</label>
-          <textarea id="serviceRapporto" rows="5" placeholder="Scrivi qui il rapporto..."></textarea>
+          <div class="info-box">
+            <span class="info-label">Entrata</span>
+            <strong id="serviceStartText">--:--:--</strong>
+          </div>
+
+          <div class="info-box">
+            <span class="info-label">Uscita</span>
+            <strong id="serviceEndText">--:--:--</strong>
+          </div>
+
+          <div class="info-box">
+            <span class="info-label">Tempo in servizio</span>
+            <strong id="serviceTimer">00:00:00</strong>
+          </div>
         </div>
 
-        <div>
-          <label>Informazioni</label>
-          <textarea id="serviceInformazioni" rows="4" placeholder="//"></textarea>
+        <div class="button-row">
+          <button class="btn btn-success" id="clockInBtn" type="button">Timbra entrata</button>
+          <button class="btn btn-warning" id="clockOutBtn" type="button">Timbra uscita</button>
+          <button class="btn btn-secondary" id="copyShiftModuleBtn" type="button">Copia modulo</button>
         </div>
-      </div>
-    </section>
-  </main>
+
+        <p class="help-text" id="serviceSessionHint">
+          Timbrando l'entrata avvii il timer e il salvataggio automatico della sessione.
+        </p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Compilazione</p>
+            <h2>Modulo operativo</h2>
+            <p class="panel-subtitle">Aggiorna i campi e lascia che l'anteprima resti pronta alla copia.</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label for="serviceCodename">Nome in codice</label>
+            <input type="text" id="serviceCodename" value="<@1084580275582931044>" />
+          </div>
+
+          <div>
+            <label for="serviceGhetti">Ghetti attivi</label>
+            <input type="text" id="serviceGhetti" placeholder="//" />
+          </div>
+        </div>
+
+        <div class="stack">
+          <div>
+            <label for="serviceRapporto">Rapporto</label>
+            <textarea id="serviceRapporto" rows="5" placeholder="Scrivi qui il rapporto..."></textarea>
+          </div>
+
+          <div>
+            <label for="serviceInformazioni">Informazioni</label>
+            <textarea id="serviceInformazioni" rows="4" placeholder="//"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Anteprima live</p>
+            <h2>Modulo pronto da copiare</h2>
+            <p class="panel-subtitle">L'output si aggiorna in tempo reale mentre modifichi i campi.</p>
+          </div>
+        </div>
+
+        <pre class="module-preview" id="serviceModulePreview"></pre>
+      </section>
+    </main>
+  </div>
 
   <script src="js/storage.js"></script>
   <script src="js/ui.js"></script>
