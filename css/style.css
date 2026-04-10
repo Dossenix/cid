@@ -726,6 +726,14 @@ button:focus-visible,
   margin-top: 20px;
 }
 
+.notes-panel {
+  margin-top: 20px;
+}
+
+.notes-textarea {
+  min-height: 220px;
+}
+
 .proof-card {
   border-radius: 18px;
   padding: 18px;

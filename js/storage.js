@@ -93,6 +93,7 @@ function normalizeFolder(folder, index) {
   return {
     id: folderId,
     name: safeText(folder?.name, fallbackName).trim() || fallbackName,
+    notes: safeText(folder?.notes),
     proofs: PROOF_TEMPLATES.map((item, proofIndex) => normalizeProof(rawProofs[proofIndex], proofIndex))
   };
 }

@@ -196,6 +196,30 @@ function renderSelectedFolder() {
 
   renderFolderHeader(folder);
 
+  const notesSection = document.createElement("section");
+  notesSection.className = "panel notes-panel";
+  notesSection.innerHTML = `
+    <div class="panel-header">
+      <div>
+        <p class="eyebrow">Note cartella</p>
+        <h2>Appunti operativi</h2>
+        <p class="panel-subtitle">Spazio libero per annotazioni, contesto e promemoria legati a questa cartella.</p>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div>
+        <label for="folderNotes">Note estese</label>
+        <textarea
+          id="folderNotes"
+          class="notes-textarea"
+          data-folder-notes="true"
+          placeholder="Scrivi qui note, riassunti, dettagli utili o promemoria..."
+        >${escapeHtml(folder.notes || "")}</textarea>
+      </div>
+    </div>
+  `;
+
   const grid = document.createElement("div");
   grid.className = "proofs-grid";
 
@@ -264,6 +288,7 @@ function renderSelectedFolder() {
   });
 
   folderContent.innerHTML = "";
+  folderContent.appendChild(notesSection);
   folderContent.appendChild(grid);
 }
 
@@ -341,6 +366,15 @@ function deleteFolder(folderId) {
 }
 
 function handleFolderInput(event) {
+  if (event.target.dataset.folderNotes) {
+    const folder = getSelectedFolder();
+    if (!folder) return;
+
+    folder.notes = event.target.value;
+    persistState();
+    return;
+  }
+
   const titleId = Number(event.target.dataset.title);
   const dateId = Number(event.target.dataset.date);
   const clipId = Number(event.target.dataset.clip);
